@@ -18,6 +18,7 @@ services:
       - .data/log:/log
       - ./traefik-users.htpasswd:/traefik-users.htpasswd
     labels:
+      - traefik.http.routers.dashboard.rule=Host(`${HOST}`)
       - traefik.http.routers.dashboard.service=api@internal
       - traefik.http.routers.dashboard.entrypoints=dashboard
       - traefik.http.routers.dashboard.middlewares=auth
