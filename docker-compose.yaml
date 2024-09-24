@@ -17,14 +17,17 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - .data/log:/log
       - ./traefik-users.htpasswd:/traefik-users.htpasswd
-    networks:
-      - traefik-net
+    env_file:
+      - .env
     labels:
-      - traefik.http.routers.dashboard.rule=Host(`localhost`)
+      - traefik.http.routers.dashboard.rule=Host(`${HOST}`)
       - traefik.http.routers.dashboard.service=api@internal
       - traefik.http.routers.dashboard.entrypoints=dashboard
       - traefik.http.routers.dashboard.middlewares=auth
       - traefik.http.middlewares.auth.basicauth.usersfile=/traefik-users.htpasswd
+
+    networks:
+      - traefik-net
 
 networks:
   traefik-net:
